@@ -30,7 +30,7 @@
     from bookshelf.models import Book
 
     book = Book.objects.get(id=1)
-    book.title = "Nineteen Eigthy-Four"
+    book.title = "Nineteen Eighty-Four"
     book.save()
 
     //If it does not throw an error, then the update was successful.
