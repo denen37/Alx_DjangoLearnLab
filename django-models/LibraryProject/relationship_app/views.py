@@ -7,7 +7,7 @@ from .models import Library
 def index(request):
     return HttpResponse("<h1 style='text-align: center;'>Welcome to the Library</h1>")
 
-def book_list(request):
+def list_books(request):
     books = Book.objects.all()
     context = {'books': books}
     return render(request, 'relationship_app/list_books.html', context)
