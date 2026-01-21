@@ -1,3 +1,22 @@
+from django.http import HttpResponse
 from django.shortcuts import render
-
+from django.views.generic import DetailView
+from .models import Book, Library
 # Create your views here.
+def index(request):
+    return HttpResponse("<h1 style='text-align: center;'>Welcome to the Library</h1>")
+
+def book_list(request):
+    books = Book.objects.all()
+    context = {'books': books}
+    return render(request, 'books/list_books.html', context)
+
+class LibraryDetailView(DetailView):
+    model = Library
+    template_name = 'libraries/library_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        library = self.get_object()
+        context['books'] = library.books.all()
+        return context
