@@ -7,7 +7,8 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Book
 from .models import Library
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login
+from django.contrib.auth import logout
 
 def index(request):
     return HttpResponse("<h1 style='text-align: center;'>Welcome to the Library</h1>")
