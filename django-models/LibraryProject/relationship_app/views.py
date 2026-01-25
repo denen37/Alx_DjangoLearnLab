@@ -27,7 +27,7 @@ class CustomRegisterView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
 
-def register_view(request):
+def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
