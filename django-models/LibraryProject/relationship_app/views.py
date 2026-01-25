@@ -29,7 +29,7 @@ class CustomRegisterView(CreateView):
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm()
         if form.is_valid():
             user = form.save()
             login(request, user)
