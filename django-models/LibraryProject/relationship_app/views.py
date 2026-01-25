@@ -22,20 +22,24 @@ class CustomLogoutView(LogoutView):
     next_page = 'login'
 
 
-class CustomRegisterView(CreateView):
-    template_name = 'relationship_app/register.html'
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+# class CustomRegisterView(CreateView):
+#     template_name = 'relationship_app/register.html'
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('login')
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm()
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('books/')
+            return redirect('books')  # use URL name, not path
     else:
-        return render(request, 'relationship_app/register.html')
+        form = UserCreationForm()
+
+    return render(request, 'relationship_app/register.html', {
+        'form': form
+    })
     
 def login_view(request):
     if request.method == "POST":
@@ -44,7 +48,7 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             # Redirect to a success page.
-            return redirect('books/')
+            return redirect('book_list')
         else:
             # Return an 'invalid login' error message.
             return render(request, 'relationship_app/login.html', {'error': 'Invalid username or password'})
@@ -68,3 +72,12 @@ class LibraryDetailView(DetailView):
         library = self.get_object()
         context['books'] = library.books.all()
         return context
+
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
