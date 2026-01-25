@@ -9,6 +9,8 @@ from .models import Book
 from .models import Library
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import user_passes_test
+
 
 def index(request):
     return HttpResponse("<h1 style='text-align: center;'>Welcome to the Library</h1>")
@@ -33,7 +35,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('books')  # use URL name, not path
+            return redirect('book_list')  # use URL name, not path
     else:
         form = UserCreationForm()
 
@@ -73,11 +75,14 @@ class LibraryDetailView(DetailView):
         context['books'] = library.books.all()
         return context
 
+@user_passes_test(lambda u: u.profile.role == 'Admin')
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
 
+@user_passes_test(lambda u: u.profile.role == 'Librarian')
 def librarian_view(request):
     return render(request, 'relationship_app/librarian_view.html')
 
+@user_passes_test(lambda u: u.profile.role == 'Member')
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')

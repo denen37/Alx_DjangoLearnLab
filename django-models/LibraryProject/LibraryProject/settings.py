@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGIN_REDIRECT_URL = 'book_list'
+
 # Application definition
 
 INSTALLED_APPS = [
